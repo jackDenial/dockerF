@@ -1,0 +1,25 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: nginx-deployment-1
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx-deployment-1
+    spec:
+      volumes:
+      - name: task1-pv-storage
+        persistentVolumeClaim:
+         claimName: task1-pv-claim
+      containers:
+      - name: nginx-deployment-1
+        image: sai06/dbuild:V-$BUILD_ID
+        ports:
+        - containerPort: 9443
+        volumeMounts:
+        - mountPath: "/var/log/nginx"
+          name: task1-pv-storage
+
